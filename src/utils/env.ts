@@ -1,12 +1,13 @@
 /**
- * Validates and exports required environment variables.
+ * Validates and exports environment variables.
  *
- * Why throw instead of warn:
- * A missing Supabase URL/key means every DB operation will fail with an
- * opaque network error. Failing loudly at startup gives an immediately
- * actionable signal during deployment rather than silent data loss.
+ * VITE_WEB3FORMS_ACCESS_KEY — Required in production to deliver survey
+ * results via email. Optional locally so devs can test the UI without
+ * configuring an email provider.
+ *
+ * VITE_GOOGLE_REVIEW_URL — The client's Google Business short link.
+ * When set, the positive-feedback screen shows a "Leave a Review" CTA.
  */
-
 
 /**
  * Returns an optional environment variable value, or undefined if not set.
@@ -16,7 +17,6 @@ const optional = (key: string): string | undefined => {
 };
 
 export const env = {
-  SUPABASE_URL: optional('VITE_SUPABASE_URL'),
-  SUPABASE_ANON_KEY: optional('VITE_SUPABASE_ANON_KEY'),
+  WEB3FORMS_ACCESS_KEY: optional('VITE_WEB3FORMS_ACCESS_KEY'),
   GOOGLE_REVIEW_URL: optional('VITE_GOOGLE_REVIEW_URL'),
 } as const;

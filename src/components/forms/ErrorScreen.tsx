@@ -8,13 +8,11 @@ interface ErrorScreenProps {
 }
 
 /**
- * ErrorScreen — Shown when a Supabase upsert fails.
+ * ErrorScreen — Shown when a Web3Forms submission fails.
  *
  * Provides a retry button and a user-friendly error message.
- * Note: The DUPLICATE_SUBMISSION path was removed because .upsert() with
- * onConflict never throws a unique constraint violation (23505).
  */
-export function ErrorScreen({ message: _message, onRetry }: ErrorScreenProps) {
+export function ErrorScreen({ message, onRetry }: ErrorScreenProps) {
   return (
     <motion.div
       className="error-container"
@@ -26,7 +24,7 @@ export function ErrorScreen({ message: _message, onRetry }: ErrorScreenProps) {
       <AlertCircle className="error-icon" />
       <h2 className="error-title">Something went wrong</h2>
       <p className="error-message">
-        We couldn't save your feedback. Please check your connection and try again.
+        {message}
       </p>
       <button className="retry-button" onClick={onRetry} id="retry-button">
         <RotateCcw size={16} />

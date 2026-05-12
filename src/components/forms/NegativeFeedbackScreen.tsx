@@ -11,8 +11,8 @@ interface NegativeFeedbackScreenProps {
  * NegativeFeedbackScreen — Shown after a 1-3 star rating is submitted.
  *
  * Presents an empathetic message and a private textarea for the family
- * to share what went wrong. This feedback is stored in Supabase and
- * triggers the broker alert Edge Function.
+ * to share what went wrong. This feedback is sent directly to the
+ * broker via Web3Forms email.
  */
 export function NegativeFeedbackScreen({
   onSubmitFeedback,

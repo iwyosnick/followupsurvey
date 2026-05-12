@@ -14,7 +14,7 @@ export type SurveyParams = z.infer<typeof SurveyParamsSchema>;
 
 /**
  * Schema for validating the full survey submission payload
- * before writing to Supabase.
+ * before submitting via Web3Forms.
  */
 export const SurveySubmissionSchema = z.object({
   client_id: z.string().min(1),

@@ -17,6 +17,16 @@ import { MissingParamsScreen } from '@/components/forms/MissingParamsScreen';
  *   RATING → (submit) → POSITIVE | NEGATIVE → (submit feedback) → SUBMITTED
  *                                                                   ↳ ERROR
  *
+ * Submission strategy:
+ *   - Positive path (4-5 stars): Email sent immediately on rating click,
+ *     then the user sees the Google Review CTA. This prevents data loss
+ *     if they close the tab after seeing the CTA.
+ *   - Negative path (1-3 stars): NO email on rating click. The user is
+ *     routed to the text feedback screen first. The email is sent only
+ *     when they click "Send Private Feedback", including both the rating
+ *     and the text. Trade-off: if they abandon the feedback screen, the
+ *     negative rating is lost. This prevents duplicate emails.
+ *
  * URL params are validated with Zod on mount. If invalid, the user
  * sees the MissingParamsScreen fallback instead of broken text.
  */
@@ -40,43 +50,46 @@ export function SurveyFlow() {
   }, []);
 
   /**
-   * handleRatingSubmit — Writes the rating to Supabase, then branches:
-   *   4-5 stars → POSITIVE screen (with feedback_text: null)
-   *   1-3 stars → NEGATIVE screen (rating saved, feedback pending)
+   * handleRatingSubmit — Branches based on rating:
+   *   4-5 stars → Submits email immediately, then shows POSITIVE screen.
+   *   1-3 stars → Skips submission, routes to NEGATIVE feedback screen.
    *
-   * Why we submit the rating immediately for the positive path:
+   * Why submit immediately for positive:
    * The user may close the tab after seeing the Google Review CTA.
    * We capture the data point before they leave.
    */
   const handleRatingSubmit = useCallback(async () => {
     if (!params || rating === 0) return;
-    setIsSubmitting(true);
 
     const isPositive = rating >= 4;
 
-    try {
-      // Immediate insert for both paths prevents data loss if user abandons
-      // the negative feedback screen.
-      await submitSurveyResponse({
-        client_id: params.client_id,
-        loved_one: params.loved_one,
-        facility: params.facility,
-        rating,
-        feedback_text: null,
-      });
-
-      setIsSubmitting(false);
-      setStep(isPositive ? 'POSITIVE' : 'NEGATIVE');
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Unknown error';
-      setIsSubmitting(false);
-      setErrorMessage(message);
-      setStep('ERROR');
+    if (isPositive) {
+      setIsSubmitting(true);
+      try {
+        await submitSurveyResponse({
+          client_id: params.client_id,
+          loved_one: params.loved_one,
+          facility: params.facility,
+          rating,
+          feedback_text: null,
+        });
+        setIsSubmitting(false);
+        setStep('POSITIVE');
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        setIsSubmitting(false);
+        setErrorMessage(message);
+        setStep('ERROR');
+      }
+    } else {
+      // Negative path: skip submission, go straight to feedback screen
+      setStep('NEGATIVE');
     }
   }, [params, rating]);
 
   /**
-   * handleFeedbackSubmit — Writes the negative rating + feedback text to Supabase.
+   * handleFeedbackSubmit — Sends the negative rating + feedback text
+   * via Web3Forms. This is the only submission for the negative path.
    */
   const handleFeedbackSubmit = useCallback(
     async (feedbackText: string | null) => {
@@ -84,7 +97,6 @@ export function SurveyFlow() {
       setIsSubmitting(true);
 
       try {
-        // This will now UPSERT if the rating was already inserted
         await submitSurveyResponse({
           client_id: params.client_id,
           loved_one: params.loved_one,
