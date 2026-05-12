@@ -3,13 +3,13 @@
 ## Project Context
 **Purpose:** ElderGuideSurvey is a lightweight, public-facing B2C micro-app designed to collect post-placement feedback from families via URL parameters.
 **Data Model:** SurveyResponse (rating, feedback, client_id, loved_one, facility)
-**Key Patterns:** TanStack Query · Hooks/Services separation · Supabase RLS
+**Key Patterns:** Hooks/Services separation · Zod validation · Web3Forms email delivery
 
 ---
 
 ## 1. Safety & Security
 * No hardcoded secrets. Use .env variables.
-* All API routes must include Zod validation.
+* All API boundaries must include Zod validation.
 * Sanitize user-generated content (XSS prevention).
 
 ## 2. Code Quality & Naming
