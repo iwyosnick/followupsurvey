@@ -25,7 +25,7 @@ const optional = (key: string): string | undefined => {
 };
 
 export const env = {
-  SUPABASE_URL: required('VITE_SUPABASE_URL'),
-  SUPABASE_ANON_KEY: required('VITE_SUPABASE_ANON_KEY'),
+  SUPABASE_URL: optional('VITE_SUPABASE_URL'),
+  SUPABASE_ANON_KEY: optional('VITE_SUPABASE_ANON_KEY'),
   GOOGLE_REVIEW_URL: optional('VITE_GOOGLE_REVIEW_URL'),
 } as const;

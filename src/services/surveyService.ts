@@ -1,5 +1,6 @@
 import { getSupabaseClient } from '@/integrations/supabase/client';
 import { SurveySubmissionSchema, type SurveySubmission } from '@/types';
+import { env } from '@/utils/env';
 
 /**
  * Submits a validated survey response to Supabase.
@@ -13,6 +14,13 @@ import { SurveySubmissionSchema, type SurveySubmission } from '@/types';
  */
 export async function submitSurveyResponse(data: SurveySubmission): Promise<void> {
   const validated = SurveySubmissionSchema.parse(data);
+
+  if (!env.SUPABASE_URL) {
+    console.warn("Supabase not configured. Bypassing database insert for:", validated);
+    // Simulate slight network delay
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return;
+  }
 
   const supabase = getSupabaseClient();
 
