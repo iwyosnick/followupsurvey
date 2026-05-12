@@ -1,0 +1,8 @@
+# Component Registry & Design System Tokens
+# Register domain components as they are built. Do NOT try to list everything.
+# For exhaustive file listings, run: .agent/scripts/generate-registry.sh
+components: []
+
+styles:
+  tokens: []
+  typography: []

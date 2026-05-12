@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Testing
+playwright/.auth/
+test-results/
+playwright-report/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Auto-generated (derived, not source)
+.agent/registry.generated

@@ -1,0 +1,79 @@
+/* ═══════════════════════════════════════════════════════════════
+   App Layout
+   ═══════════════════════════════════════════════════════════════ */
+
+.app-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-4);
+  position: relative;
+}
+
+/* Animated background orbs */
+.app-wrapper::before,
+.app-wrapper::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-wrapper::before {
+  width: 500px;
+  height: 500px;
+  background: var(--color-primary);
+  top: -150px;
+  right: -100px;
+  animation: float-orb 12s ease-in-out infinite;
+}
+
+.app-wrapper::after {
+  width: 400px;
+  height: 400px;
+  background: var(--color-accent);
+  bottom: -100px;
+  left: -80px;
+  animation: float-orb 15s ease-in-out infinite reverse;
+}
+
+@keyframes float-orb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.95); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Survey Card (Glassmorphism container)
+   ═══════════════════════════════════════════════════════════════ */
+
+.survey-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 520px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-10);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* Subtle gradient shimmer on the card */
+.survey-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-hero);
+  opacity: 0.8;
+}

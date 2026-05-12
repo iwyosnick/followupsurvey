@@ -1,0 +1,140 @@
+/* ═══════════════════════════════════════════════════════════════
+   Star Rating
+   ═══════════════════════════════════════════════════════════════ */
+
+.star-rating-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.star-rating-group {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-2);
+}
+
+.star-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  transition: transform var(--duration-fast) var(--ease-out-expo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.star-button:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+.star-button:active {
+  transform: scale(0.9);
+}
+
+.star-icon {
+  width: 44px;
+  height: 44px;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  filter: drop-shadow(0 0 0px transparent);
+}
+
+.star-icon--empty {
+  color: var(--color-surface);
+  opacity: 0.5;
+}
+
+.star-icon--hovered {
+  color: #FBBF24;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.3));
+}
+
+.star-icon--active {
+  color: #FBBF24;
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.5));
+}
+
+.star-rating-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  min-height: 1.25rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Submit Button
+   ═══════════════════════════════════════════════════════════════ */
+
+.submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  background: var(--gradient-hero);
+  color: white;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  box-shadow: var(--shadow-md), var(--shadow-glow-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity var(--duration-normal);
+}
+
+.submit-button:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 32px rgba(79, 70, 229, 0.4);
+}
+
+.submit-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Loading Spinner
+   ═══════════════════════════════════════════════════════════════ */
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
