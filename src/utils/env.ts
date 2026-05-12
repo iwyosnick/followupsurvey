@@ -6,16 +6,7 @@
  * opaque network error. Failing loudly at startup gives an immediately
  * actionable signal during deployment rather than silent data loss.
  */
-const required = (key: string): string => {
-  const value = import.meta.env[key];
-  if (!value) {
-    throw new Error(
-      `Missing required environment variable: ${key}. ` +
-      `Ensure it is set in your .env file or Cloudflare Pages settings.`
-    );
-  }
-  return value;
-};
+
 
 /**
  * Returns an optional environment variable value, or undefined if not set.
