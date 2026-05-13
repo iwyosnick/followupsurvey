@@ -46,16 +46,20 @@ When a user gives a 4 or 5-star rating, the survey shows a "Leave a Google Revie
 
 ---
 
-## 3. Generating Survey Links
+## 3. Generating Survey Links (Senior Place CRM)
 
-When sending the survey to clients, you must include their information in the URL so their response can be tracked. Do not send the bare `followupsurvey.pages.dev` link, as it will show an "Invalid Link" error.
+When automating follow-up emails in **Senior Place**, you can use their built-in **Email Placeholders** to automatically generate a personalized survey link for every family.
 
-**Format your URLs like this:**
-`https://followupsurvey.pages.dev/?client_id=123&loved_one=John&facility=Olympic`
+1. Go to your post-placement Email Template (or Workflow) in Senior Place.
+2. Type out the base URL: `https://followupsurvey.pages.dev/?`
+3. Use the **`{ }` (Placeholders) button** in the Senior Place email editor to insert the dynamic variables exactly like this:
 
-- `client_id`: The unique ID of the client in your CRM.
-- `loved_one`: The first name of the person receiving care.
-- `facility`: The name of the facility they were placed in.
+```text
+https://followupsurvey.pages.dev/?client_id={{Client.Id}}&loved_one={{Client.FirstName}}&facility={{Community.Name}}
+```
+*(Note: The exact formatting of the `{ }` tags depends on Senior Place, but you just need to select the Client ID, Client First Name, and the Placed Community Name from the placeholder dropdown).*
+
+When Senior Place sends the email, it will invisible swap those `{ }` tags with the real family data. If a family visits the bare `followupsurvey.pages.dev` link without this data attached, they will see an "Invalid Link" security screen.
 
 ---
 
