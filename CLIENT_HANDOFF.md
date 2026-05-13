@@ -1,77 +1,101 @@
-# ElderGuide Survey: Client Integration Guide
+# ElderGuide Follow-Up Survey
 
-This document outlines the final steps required from the business owner to fully launch the ElderGuide Survey.
+## What You're Getting
 
-## 1. Setting Up Email Notifications (Required)
+A branded, mobile-friendly survey that automatically follows up with families after a senior care placement. When a family clicks the link in their email, they'll see a personalized greeting — e.g., *"How is Darlene's experience at Angel Stars?"* — and can rate their experience with a simple star rating.
 
-Every time a family completes the survey, you will receive an email with their rating, feedback, and which facility they were placed at. This requires a free Web3Forms access key.
+**Try it yourself:**
+[https://followupsurvey.pages.dev/?client_id=David&loved_one=Darlene&facility=Angel%20Stars](https://followupsurvey.pages.dev/?client_id=David&loved_one=Darlene&facility=Angel%20Stars)
 
-**How to get your Access Key:**
-1. Go to [Web3Forms.com](https://web3forms.com/).
+---
+
+## How It Works
+
+The survey intelligently routes families down one of two paths based on their rating:
+
+**Happy families (4-5 stars):**
+After rating, they're immediately encouraged to leave a public Google review for your business. Their positive rating is also emailed to you.
+
+**Unhappy families (1-3 stars):**
+Instead of being sent to Google, they see a private feedback form: *"What could be better?"* Their rating and written feedback are emailed directly to you — giving you a chance to follow up personally before anything goes public.
+
+Every submission sends you an email that includes the star rating, the family's name, the facility, and any written feedback.
+
+---
+
+## Benefits
+
+- **Protect your reputation.** Negative feedback comes to you privately instead of ending up on Google.
+- **Generate more Google reviews.** Happy families are nudged to leave a public review right when they're feeling positive.
+- **Zero manual work.** Once set up, the survey runs automatically through your Senior Place email workflows.
+- **Personalized for every family.** Each link dynamically greets the family by name and references their specific facility.
+- **Works on any device.** The survey is fully responsive — looks great on phones, tablets, and desktops.
+
+---
+
+## What It Costs
+
+**Nothing.** The survey runs on free-tier infrastructure:
+
+| Service | Purpose | Cost |
+|---------|---------|------|
+| Cloudflare Pages | Hosts the survey website | Free |
+| Web3Forms | Delivers survey results to your email | Free (up to 250 emails/month) |
+
+If your volume ever exceeds 250 survey responses per month, Web3Forms offers paid plans starting at $10/month for unlimited submissions.
+
+---
+
+## How to Set It Up
+
+There are three one-time setup steps. Each takes about 5 minutes.
+
+### Step 1: Activate Email Notifications
+
+This connects the survey to your inbox so you receive results.
+
+1. Go to [web3forms.com](https://web3forms.com/).
 2. Enter the email address where you want to receive survey results.
 3. Check your inbox — Web3Forms will send you an **Access Key** (a long string of letters and numbers).
+4. Send me the Access Key and I'll plug it in for you — or, if you prefer to do it yourself:
+   - Log into your [Cloudflare Dashboard](https://dash.cloudflare.com/).
+   - Go to **Workers & Pages** → **followupsurvey** → **Settings** → **Environment variables**.
+   - Add: `VITE_WEB3FORMS_ACCESS_KEY` = *(your Access Key)*
+   - Click **Save**, then go to **Deployments** and click **Retry deployment**.
 
-**How to add the key to your survey:**
-1. Log into your **Cloudflare Dashboard**.
-2. Go to **Workers & Pages** -> **followupsurvey** -> **Settings** -> **Environment variables**.
-3. Under the Production environment, add a new variable:
-   - **Variable name:** `VITE_WEB3FORMS_ACCESS_KEY`
-   - **Value:** *(Paste your Access Key)*
-4. Click **Save**.
-5. Go to the **Deployments** tab and click **Retry deployment** on the most recent build to apply the changes.
+### Step 2: Connect Your Google Review Link
 
-> **Free Tier Note:** Web3Forms allows up to 250 emails per month on the free plan, which is more than sufficient for typical survey volumes.
+This activates the "Leave a Google Review" button that happy families see.
 
----
+1. Go to Google and search for your business name (make sure you're logged into the Google account that manages the business profile).
+2. In the management dashboard, click **"Ask for reviews"**.
+3. Copy the short link it gives you (looks like `https://g.page/r/YOUR_ID/review`).
+4. Send me the link and I'll add it — or add it yourself in Cloudflare:
+   - Same **Environment variables** page as Step 1.
+   - Add: `VITE_GOOGLE_REVIEW_URL` = *(your Google review link)*
+   - **Save** and trigger a new deployment.
 
-## 2. Connecting the Google Review Button
+### Step 3: Add the Survey Link to Senior Place
 
-When a user gives a 4 or 5-star rating, the survey shows a "Leave a Google Review" button. To activate this button, you need to generate a specific short link from your Google Business Profile.
+This is how the survey gets sent to families automatically.
 
-**How to generate the Review Link:**
-*(You must be logged into the Google Account that manages the Olympic Senior Advisors business profile.)*
+1. In **Senior Place**, open the Email Template or Workflow you use for post-placement follow-ups.
+2. In the email body, add a button or link with this URL:
 
-1. Go to Google Search or Google Maps and search for your business.
-2. If you are logged into the correct account, you will see a management dashboard directly in the search results.
-3. Click the **"Ask for reviews"** button.
-4. Copy the short link provided (it will look something like `https://g.page/r/YOUR_ID/review`).
-   - *Reference: [Google Business Profile Help: Get a link for customers to write reviews](https://support.google.com/business/answer/16816815?hl=en)*
-
-**How to add the link to the survey:**
-1. In Cloudflare, go to **Workers & Pages** -> **followupsurvey** -> **Settings** -> **Environment variables**.
-2. Add a new variable:
-   - **Variable name:** `VITE_GOOGLE_REVIEW_URL`
-   - **Value:** *(Paste the short link you generated above)*
-3. Click **Save** and trigger a new deployment.
-
----
-
-## 3. Generating Survey Links (Senior Place CRM)
-
-When automating follow-up emails in **Senior Place**, you can use their built-in **Email Placeholders** to automatically generate a personalized survey link for every family.
-
-1. Go to your post-placement Email Template (or Workflow) in Senior Place.
-2. Type out the base URL: `https://followupsurvey.pages.dev/?`
-3. Use the **`{ }` (Placeholders) button** in the Senior Place email editor to insert the dynamic variables exactly like this:
-
-```text
+```
 https://followupsurvey.pages.dev/?client_id={{Client.Id}}&loved_one={{Client.FirstName}}&facility={{Community.Name}}
 ```
-*(Note: The exact formatting of the `{ }` tags depends on Senior Place, but you just need to select the Client ID, Client First Name, and the Placed Community Name from the placeholder dropdown).*
 
-When Senior Place sends the email, it will invisible swap those `{ }` tags with the real family data. If a family visits the bare `followupsurvey.pages.dev` link without this data attached, they will see an "Invalid Link" security screen.
+3. To insert the `{{ }}` parts, use the **`{ }` (Placeholders) button** in the Senior Place email editor. Select the **Client ID**, **Client First Name**, and **Community Name** fields from the dropdown.
+
+When Senior Place sends the email, it will automatically replace those placeholders with each family's real information.
+
+> **Important:** If someone visits the bare link (`followupsurvey.pages.dev`) without the family data attached, they'll see an "Invalid Link" screen. This is intentional — it prevents anonymous submissions.
 
 ---
 
-## 4. What You'll Receive
+## Working With Me
 
-For every survey submission, you will receive an email that includes:
-- ⭐ **Star rating** (1-5, shown visually)
-- 📝 **Written feedback** (if the family chose to leave any)
-- 🏥 **Facility name**
-- 🆔 **Client ID** (for CRM cross-reference)
-- 💙 **Loved one's name**
-
-**For negative reviews (1-3 stars):** The family is prompted to share private feedback before the email is sent. This gives you actionable context for follow-up.
-
-**For positive reviews (4-5 stars):** The email is sent immediately, and the family is encouraged to leave a public Google review.
+- **If you just want to send me the keys:** Send me your Web3Forms Access Key and Google Review link, and I'll configure everything for you. You'll only need to handle Step 3 (adding the link to Senior Place).
+- **If something isn't working:** Send me a screenshot and the link you used. I can usually diagnose and fix issues same-day.
+- **If you want to change the wording:** The greeting, feedback prompts, and all survey text can be updated anytime — just let me know what you'd like it to say.
