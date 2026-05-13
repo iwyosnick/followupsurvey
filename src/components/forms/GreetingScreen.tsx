@@ -35,11 +35,11 @@ export function GreetingScreen({
       <div className="greeting-header">
         <span className="greeting-emoji" aria-hidden="true">👋</span>
         <h1 className="greeting-title">
-          How was <span className="greeting-highlight">{params.loved_one}</span>'s
+          How is <span className="greeting-highlight">{params.loved_one}</span>'s
           experience at <span className="greeting-highlight">{params.facility}</span>?
         </h1>
         <p className="greeting-subtitle">
-          Your honest feedback helps us improve care for every family.
+          Your honest feedback helps us make sure you get the best care possible.
         </p>
       </div>
 

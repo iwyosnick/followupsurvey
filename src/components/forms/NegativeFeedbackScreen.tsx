@@ -52,7 +52,7 @@ export function NegativeFeedbackScreen({
 
       <textarea
         className="feedback-textarea"
-        placeholder="What could we have done better?"
+        placeholder="What could be better?"
         value={feedback}
         onChange={(e) => setFeedback(e.target.value)}
         disabled={isSubmitting}
