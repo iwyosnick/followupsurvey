@@ -39,10 +39,18 @@ export function SurveyFlow() {
   /** Parse and validate URL params once on mount. */
   const params = useMemo<SurveyParams | null>(() => {
     const searchParams = new URLSearchParams(window.location.search);
+    // safeGet handles double-encoded URLs (e.g. %2520 → %20 → ' ').
+    // URLSearchParams.get() performs one decode pass automatically;
+    // decodeURIComponent applies a second pass for any residual encoding.
+    // The try/catch ensures a malformed %XX sequence won't throw.
+    const safeGet = (key: string) => {
+      const raw = searchParams.get(key) ?? '';
+      try { return decodeURIComponent(raw); } catch { return raw; }
+    };
     const raw = {
-      client_id: searchParams.get('client_id') ?? '',
-      loved_one: searchParams.get('loved_one') ?? '',
-      facility: searchParams.get('facility') ?? '',
+      client_id: safeGet('client_id'),
+      loved_one: safeGet('loved_one'),
+      facility: safeGet('facility'),
     };
 
     const result = SurveyParamsSchema.safeParse(raw);
