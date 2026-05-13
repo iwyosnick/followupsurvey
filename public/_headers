@@ -1,0 +1,15 @@
+/*
+  # Content Security Policy
+  # Delivered as an HTTP header so frame-ancestors and other header-only
+  # directives are enforced. The <meta> CSP in index.html is redundant
+  # once this is active but kept as a defence-in-depth fallback.
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.web3forms.com; img-src 'self' data:; frame-ancestors https://olympicsenioradvisors.com
+
+  # Prevent MIME-type sniffing attacks
+  X-Content-Type-Options: nosniff
+
+  # No referrer info sent to third-party origins
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Restrict browser feature access
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

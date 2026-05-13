@@ -1,4 +1,4 @@
-# ElderGuide Follow-Up Survey
+# Automated Family Feedback & Google Review System
 
 ## What You're Getting
 
@@ -27,6 +27,7 @@ Every submission sends you an email that includes the star rating, the family's 
 
 - **Protect your reputation.** Negative feedback comes to you privately instead of ending up on Google.
 - **Generate more Google reviews.** Happy families are nudged to leave a public review right when they're feeling positive.
+- **Early warning system for facility issues.** When a family rates a placement poorly, you find out immediately — before they go silent, escalate, or leave. This gives you the window to call, check in, and intervene. Research in customer experience consistently shows that a problem handled with care and speed can result in *stronger* long-term loyalty than if nothing had gone wrong at all. In senior care, where trust is everything, that kind of proactive service recovery can be the difference between a quiet withdrawal and a client who becomes your biggest advocate.
 - **Zero manual work.** Once set up, the survey runs automatically through your Senior Place email workflows.
 - **Personalized for every family.** Each link dynamically greets the family by name and references their specific facility.
 - **Works on any device.** The survey is fully responsive — looks great on phones, tablets, and desktops.
